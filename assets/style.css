@@ -2,8 +2,12 @@
     background-color: rgb(9, 57, 9);
 }
 
-.forecast {
-    background-color: lightgreen;
+
+
+.title {
+    font-weight: bold;
+    font-size: 30px;
+    color: black;
 }
 
 .flex-container {
@@ -29,3 +33,10 @@
     width: 20%;
 }
 
+
+.top-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: aqua;
+}
