@@ -1,1 +1,18 @@
-hello
+#top {
+    background-color: rgb(9, 57, 9);
+}
+
+.forecast {
+    background-color: lightgreen;
+}
+
+.flex-container {
+    display: flex;
+   
+}
+
+.forecast-container {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

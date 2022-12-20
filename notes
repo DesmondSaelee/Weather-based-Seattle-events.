@@ -1,0 +1,26 @@
+Tasks
+
+
+
+HTMl
+Copy and paste framework.
+    -materializeCSS components
+Follow similar style of module 6 mock up
+    -Search bar with user input on left side of screen
+        -list of search history below
+    -1 big card (9/12) current day forecast
+        -below 4 smaller cards future forecast (about 2/12)
+    - Below forecast list of locations and landmarks (9/12)
+        -links to matching website
+    
+
+
+
+CSS
+Cool Idea: when location is entered. background picture will change to matching landmark.
+
+
+
+
+Javascript
+User input location
