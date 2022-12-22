@@ -7,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Location searcher</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href=".\assets\style.css">
 
 </head>
-
+<div></div>
 <body>
     <div class="title">
         <div class="col s12 m6" id="top">
@@ -21,13 +22,15 @@
             </div>
         </div>
     </div>
-
+<form class="">
     <div class="flex-container">
-
-        <div class="searchlist column left">
-            <input type="text" placeholder="Search">
-        </div>
-
+        <div class="input-field">
+            <input placeholder="Seattle" id="first_name" type="text" class="validate">
+        <label for="first_name">Search for a City:</label>
+        <button class="btn btn-primary search" type="button">Search</button>
+    </div>
+</form>
+            
         <div class="column right">
 
             <div class="main-card">
