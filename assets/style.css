@@ -8,11 +8,23 @@
 
 .flex-container {
     display: flex;
-   
 }
 
 .forecast-container {
+    display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
+    
 }
+
+.right {
+    width: 80%;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+.left {
+    width: 20%;
+}
+
