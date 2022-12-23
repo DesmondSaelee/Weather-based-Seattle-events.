@@ -1,15 +1,21 @@
 var apiKey = "7fd817a82bee4b8fbce597d0849507d8";
 var baseGeoUrl = "https://api.geoapify.com/v2/place-details?";
 
+var placeId, lat, lon;
     
-function fetchReq(){
+function fetchLocationData(location){
     
     var requestOptions = {
         method: 'GET',
     };
     
-    fetch("https://api.geoapify.com/v1/geocode/search?text=38%20Upper%20Montagu%20Street%2C%20Westminster%20W1H%201LJ%2C%20United%20Kingdom&apiKey=7fd817a82bee4b8fbce597d0849507d8", requestOptions)
+    fetch(`https://api.geoapify.com/v1/geocode/search?text=${location}&apiKey=${apiKey}`, requestOptions)
     .then(response => response.json())
-    .then(result => console.log(result))
+    .then(function(result){
+        placeId = result.features[0].properties.place_id;
+        lat = result.features[0].properties.lat;
+        lon = result.features[0].properties.lon;
+    })
     .catch(error => console.log('error', error));
+
 }
