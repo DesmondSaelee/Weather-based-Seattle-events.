@@ -1,5 +1,6 @@
 #top {
     background-color: rgb(9, 57, 9);
+    text-align: center;
 }
 
 
@@ -12,7 +13,6 @@
 
 .flex-container {
     display: flex;
-   
 }
 
 .forecast-container {
