@@ -23,3 +23,15 @@ function fetchLocationData(location){
     .catch(error => console.log('error', error));
 
 }
+
+function getPlaceDetails(){
+
+    fetch(`${baseGeoUrl}filter=place:${placeId}&apiKey=${apiKey}`)
+    .then(function(response){
+        if(response.ok){return response.json()}
+    })
+    .then(function(data){
+        console.log(data);
+    })
+
+}
