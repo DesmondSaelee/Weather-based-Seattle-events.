@@ -4,7 +4,6 @@ var baseGeoUrl = "https://api.geoapify.com/v2/place-details?";
 var placeId, lat, lon;
 
 var today = dayjs();
-today.set('date', today.get('day') + 1);
 
 console.log(today.format('dddd, MMM D'));
     
