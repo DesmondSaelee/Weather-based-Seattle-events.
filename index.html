@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href=".\assets\style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script 
         src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
         integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
@@ -17,171 +18,172 @@
     ></script>
 
 </head>
+
 <body>
     <div class="title">
         <div class="col s12 m6" id="top">
             <div class="card blue-grey darken-1">
                 <div class="card-content white-text">
-                    <span class="card-title">Landmarks and Weather Searcher</span>
+                    <span class=" top-page">Landmarks and Weather Searcher</span>
                 </div>
             </div>
         </div>
     </div>
-<form class="">
-    <div class="flex-container">
-        <div class="input-field">
-            <input placeholder="Seattle" id="first_name" type="text" class="validate">
-        <label for="first_name">Search for a City:</label>
-        <button class="btn btn-primary search" type="button">Search</button>
-    </div>
-</form>
-            
-        <div class="column right">
+    <form class="">
+        <div class="flex-container">
+            <div class="input-field">
+                <input placeholder="Seattle" id="first_name" type="text" class="validate">
+                <label for="first_name">Search for a City:</label>
+                <button class="btn btn-primary search" type="button" id="searchBtn">Search</button>
+            </div>
+    </form>
 
-            <div class="main-card">
+    <div class="column right">
 
-                <div class="row">
-                    <div class="col s12 m6">
-                        <div class="card forecast">
-                            <div class="card-content white-text">
-                                <span class="card-title">Card Title</span>
-                                <p>I am a very simple card. I am good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.</p>
-                            </div>
+        <div class="main-card">
+
+            <div class="row">
+                <div class="top-card">
+                    <div class="card blue-grey darken-1 future">
+                        <div class="card-content white-text">
+                            <span class="title" id="current">Current Location </span>
+                            <p>Temp: x</p>
+                            <p>Wind: x</p>
+                            <p>Humidity: x</p>
                         </div>
-
-
-
                     </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="forecast-container">
+
+            <div class="row">
+                <div class="">
+                    <div class="card blue-grey darken-1 future">
+                        <div class="card-content white-text">
+                            <span class="title dates">Day 1</span>
+                            <p>Temp:</p>
+                            <p>Wind:</p>
+                            <p>Humidity:</p>
+                        </div>
+                    </div>
+
+
+
                 </div>
             </div>
 
-            <div class="forecast-container">
-
-                <div class="row">
-                    <div class="">
-                        <div class="card blue-grey darken-1 future">
-                            <div class="card-content white-text">
-                                <span class="card-title">Day 1</span>
-                                <p>Temp:</p>
-                                <p>Wind:</p>
-                                <p>Humidity:</p>
-                            </div>
+            <div class="row">
+                <div class="">
+                    <div class="card blue-grey darken-1 future">
+                        <div class="card-content white-text">
+                            <span class="title dates">Day 2</span>
+                            <p>Temp:</p>
+                            <p>Wind:</p>
+                            <p>Humidity:</p>
                         </div>
-
-
-
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="">
-                        <div class="card blue-grey darken-1 future">
-                            <div class="card-content white-text">
-                                <span class="card-title">Day 2</span>
-                                <p>Temp:</p>
-                                <p>Wind:</p>
-                                <p>Humidity:</p>
-                            </div>
-                        </div>
 
 
 
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="">
-                        <div class="card blue-grey darken-1 future">
-                            <div class="card-content white-text">
-                                <span class="card-title">Day 3</span>
-                                <p>Temp:</p>
-                                <p>Wind:</p>
-                                <p>Humidity:</p>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="">
-                        <div class="card blue-grey darken-1 future">
-                            <div class="card-content white-text">
-                                <span class="card-title">Day 4</span>
-                                <p>Temp:</p>
-                                <p>Wind:</p>
-                                <p>Humidity:</p>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="">
-                        <div class="card blue-grey darken-1 future">
-                            <div class="card-content white-text">
-                                <span class="card-title">Day 5</span>
-                                <p>Temp:</p>
-                                <p>Wind:</p>
-                                <p>Humidity:</p>
-                            </div>
-                        </div>
-
-
-
-                    </div>
                 </div>
             </div>
 
-            <div class="bottom-container">
-
-                <div class="row">
-                    
-                    <div class="col s12 m6">
-                        
-                        <h3>This is an example for Tukwila</h3>
-                        <div class="card green darken-2">
-                            <div class="card-content white-text">
-                                <h4>Entertainment</h4>
-                                <span class="card-title">Museum of Flight</span>
-                                <p>Location: East Marginal Way South, Seattle, WA 98168, United States of America</p>
-                                <p>Entertainment type: Museum</p>
-                            </div>
-                            <div class="card-action">
-                                <a href="http://www.museumofflight.org/">museumofflight</a>
-                                <a href="tel:12067645720">(206)764-5720</a>
-                            </div>
+            <div class="row">
+                <div class="">
+                    <div class="card blue-grey darken-1 future">
+                        <div class="card-content white-text">
+                            <span class="title dates">Day 3</span>
+                            <p>Temp:</p>
+                            <p>Wind:</p>
+                            <p>Humidity:</p>
                         </div>
                     </div>
 
-                    <div class="col s12 m6">
 
-                        <h3>Same in Tukwila</h3>
-                        <div class="card orange lighten-2">
-                            <div class="card-content white-text">
-                                <h4>Commercial</h4>
-                                <span class="card-title">Westfield Southcenter</span>
-                                <p>Location: 2800 Southcenter Parkway, Seattle, WA 98188, United States of America</p>
-                                <p>Commercial type: shopping_mall</p>
-                                <p>Opening_hours: Mo-Sa 10:00-21:00; Su 11:00-19:00</p>
-                            </div>
-                            <div class="card-action">
-                                <a class="blue-text" href="http://www.westfield.com/southcenter/">WestField southcenter</a>
-                                <a class="blue-text" href="tel:12062460423">206-246-0423</a>
-                            </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="">
+                    <div class="card blue-grey darken-1 future">
+                        <div class="card-content white-text">
+                            <span class="title dates">Day 4</span>
+                            <p>Temp:</p>
+                            <p>Wind:</p>
+                            <p>Humidity:</p>
                         </div>
                     </div>
 
+
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="">
+                    <div class="card blue-grey darken-1 future">
+                        <div class="card-content white-text">
+                            <span class="title dates">Day 5</span>
+                            <p>Temp:</p>
+                            <p>Wind:</p>
+                            <p>Humidity:</p>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-container">
+
+            <div class="row">
+
+                <div class="col s12 m6">
+
+                    <h3>This is an example for Tukwila</h3>
+                    <div class="card green darken-2">
+                        <div class="card-content white-text">
+                            <h4>Entertainment</h4>
+                            <span class="card-title">Museum of Flight</span>
+                            <p>Location: East Marginal Way South, Seattle, WA 98168, United States of America</p>
+                            <p>Entertainment type: Museum</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="http://www.museumofflight.org/">museumofflight</a>
+                            <a href="tel:12067645720">(206)764-5720</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m6">
+
+                    <h3>Same in Tukwila</h3>
+                    <div class="card orange lighten-2">
+                        <div class="card-content white-text">
+                            <h4>Commercial</h4>
+                            <span class="card-title">Westfield Southcenter</span>
+                            <p>Location: 2800 Southcenter Parkway, Seattle, WA 98188, United States of America</p>
+                            <p>Commercial type: shopping_mall</p>
+                            <p>Opening_hours: Mo-Sa 10:00-21:00; Su 11:00-19:00</p>
+                        </div>
+                        <div class="card-action">
+                            <a class="blue-text" href="http://www.westfield.com/southcenter/">WestField southcenter</a>
+                            <a class="blue-text" href="tel:12062460423">206-246-0423</a>
+                        </div>
+                    </div>
                 </div>
 
             </div>
 
+        </div>
 
     <!-- link to jquery  --> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>        
