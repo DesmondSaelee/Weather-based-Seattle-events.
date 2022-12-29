@@ -1,11 +1,10 @@
 var apiKey = "7fd817a82bee4b8fbce597d0849507d8";
 var baseGeoUrl = "https://api.geoapify.com/v2/place-details?";
+var serpApiKey = "179d01a2307062deab314b97c264567ad1a85bb0c6b8d15e038453be9cee7a60";
 
 var placeId, lat, lon;
 
 var today = dayjs();
-
-console.log(today.format('dddd, MMM D'));
     
 function fetchLocationData(location){
     
@@ -34,4 +33,21 @@ function getPlaceDetails(){
         console.log(data);
     })
 
+}
+
+
+function serpApiTest(query){
+
+    var requestOptions = {
+        method: 'GET',
+        mode: 'no-cors'
+    };
+
+    fetch(`https://serpapi.com/search?api_key=${serpApiKey}&engine=google_events&device=desktop&q=${query}`, requestOptions)
+    .then(function(response){
+        console.log(response);
+    })
+    .then(function(data){
+        console.log(data);
+    })
 }
