@@ -1,6 +1,5 @@
 var GeoapiKey = "7fd817a82bee4b8fbce597d0849507d8";
 var baseGeoPlacesUrl = "https://api.geoapify.com/v2/places?";
-var serpApiKey = "179d01a2307062deab314b97c264567ad1a85bb0c6b8d15e038453be9cee7a60";
 var openWeatherApiKey = "9c26d768ead86b39036caf98fb0abbfa";
 
 var placeId, lat, lon;
@@ -10,24 +9,27 @@ var search = $('#searchBtn')
 var datesArray = $('.dates')
 
 // $('#current').append(today.format('dddd, MMMM D'));
+function getConcertDetails(){
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '39ab25d4b3mshd3d6061f56936c2p1ccea5jsn16a8b8bc255b',
+            'X-RapidAPI-Host': 'concerts-artists-events-tracker.p.rapidapi.com'
+        }
+    };
+    fetch('https://concerts-artists-events-tracker.p.rapidapi.com/venue?name=Hollywood%20bowl&page=1', options)
+    .then(response => response.json())
+    .then(function(response){
+        console.log(response)
+        for (var i = 0; i < response.data.length; i++) {
+            console.log(response.data[i].description)
+            // Put everything within the for loop between starting on line 43 and ending on 47. create elements and append to desired cards.
+        }
+    })
+    .catch(err => console.error(err));
+}
 
-const options = {
-    method: 'GET',
-    headers: {
-        'X-RapidAPI-Key': '39ab25d4b3mshd3d6061f56936c2p1ccea5jsn16a8b8bc255b',
-        'X-RapidAPI-Host': 'concerts-artists-events-tracker.p.rapidapi.com'
-    }
-};
-fetch('https://concerts-artists-events-tracker.p.rapidapi.com/venue?name=Hollywood%20bowl&page=1', options)
-.then(response => response.json())
-.then(function(response){
-    console.log(response)
-    for (var i = 0; i < response.data.length; i++) {
-        console.log(response.data[i].description)
-        // Put everything within the for loop between starting on line 43 and ending on 47. create elements and append to desired cards.
-    }
-})
-.catch(err => console.error(err));
+
 // function fetchLocationData(location){
 //     var requestOptions = {
 //         mode: "no-cors",
@@ -58,8 +60,8 @@ function getGeoapifyLocationId(){
         //if multiple categories store them as a string with commas inbetween the categories
         //example: accomidation,activity,commercial,education
         //full list of options here https://apidocs.geoapify.com/docs/places/#categories
-        let category = "commercial";
-        getPlaceDetails(category);
+        let category = ["commercial","entertainment","accomidation"];
+        getPlaceDetails(category[Math.floor(Math.random()*category.length)]);
     })
     .catch(error => console.log('error', error));
 
@@ -218,11 +220,11 @@ function get5Day(lat, lon){
     });
 }
 
-fetchLocation("seattle")
 search.on('click', function () {
   userInput = $('#first_name').val()
   $('#current').text(userInput + " " + today.format('dddd, MMMM D'))
-  console.log(userInput)
+  fetchLocation(userInput);
+  getGeoapifyLocationId();
   
   
 });
