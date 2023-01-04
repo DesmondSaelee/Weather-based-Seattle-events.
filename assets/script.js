@@ -8,44 +8,35 @@ var userInput = ""
 var search = $('#searchBtn')
 var datesArray = $('.dates')
 
+const rapidApiOptions = {
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': '39ab25d4b3mshd3d6061f56936c2p1ccea5jsn16a8b8bc255b',
+        'X-RapidAPI-Host': 'concerts-artists-events-tracker.p.rapidapi.com'
+    }
+};
+
 // $('#current').append(today.format('dddd, MMMM D'));
 function getConcertDetails(){
-    const options = {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': '39ab25d4b3mshd3d6061f56936c2p1ccea5jsn16a8b8bc255b',
-            'X-RapidAPI-Host': 'concerts-artists-events-tracker.p.rapidapi.com'
-        }
-    };
-    fetch('https://concerts-artists-events-tracker.p.rapidapi.com/venue?name=Hollywood%20bowl&page=1', options)
+    
+    fetch('https://concerts-artists-events-tracker.p.rapidapi.com/venue?name=Hollywood%20bowl&page=1', rapidApiOptions)
     .then(response => response.json())
     .then(function(response){
         console.log(response)
         for (var i = 0; i < response.data.length; i++) {
             console.log(response.data[i].description)
             // Put everything within the for loop between starting on line 43 and ending on 47. create elements and append to desired cards.
+            //gets and updates page
+            let address = data[i].location.address.adressRegion
+            $('#current').text(address + " " + today.format('dddd, MMMM D'))
+            //store the latitude and longitude
+            lat = data[i].location.geo.latitude;
+            lon = data[i].location.geo.longitude;
+            get5Day();
         }
     })
     .catch(err => console.error(err));
 }
-
-
-// function fetchLocationData(location){
-//     var requestOptions = {
-//         mode: "no-cors",
-//         method: 'GET',
-//     };
-//     fetch(`https://concerts-artists-events-tracker.p.rapidapi.com/venue`, requestOptions)
-//     .then(response => response.json())
-//     .then(function(result){
-//         placeId = result.features[0].properties.place_id;
-//         lat = result.features[0].properties.lat;
-//         lon = result.features[0].properties.lon;
-//         console.log("This is example" + result)
-//     })
-//     .catch(error => console.log('error', error));
-// }
-// fetchLocationData();
 
 //this function only currently works after the fetchLocation() function is run
 //the url needs a latitude an longitude
@@ -60,7 +51,8 @@ function getGeoapifyLocationId(){
         //if multiple categories store them as a string with commas inbetween the categories
         //example: accomidation,activity,commercial,education
         //full list of options here https://apidocs.geoapify.com/docs/places/#categories
-        let category = ["commercial","entertainment","accomidation"];
+        let category = ["commercial","entertainment","accommodation"];
+        getPlaceDetails(category[Math.floor(Math.random()*category.length)]);
         getPlaceDetails(category[Math.floor(Math.random()*category.length)]);
     })
     .catch(error => console.log('error', error));
@@ -132,13 +124,19 @@ function createPlaceDetailCard(dataObject, category){
     //bottom of the card with links
     let cardLinks = $(`<div class="card-action"></div>`);
     if(dataObject.website !== undefined){
-        let webLink = $(`<a class="blue-text" href="${dataObject.website}">${dataObject.name}</a>`)
+        let webLink = $(`<a href="${dataObject.website}">${dataObject.name}</a>`)
+        if(category === "commercial"){
+            webLink.addClass("blue-text");
+        }
         cardLinks.append(webLink);
     }
     if(dataObject.phone !== undefined){
         //this just replaces any paranthesis and dashes
         let phoneNumberFormatted = dataObject.phone.replace("(","").replace(")","").replace("-","");
-        let phoneLink = $(`<a class="blue-text" href="tel:${phoneNumberFormatted}">${dataObject.phone}</a>`)
+        let phoneLink = $(`<a href="tel:${phoneNumberFormatted}">${dataObject.phone}</a>`)
+        if(category === "commercial"){
+            phoneLink.addClass("blue-text");
+        }
         cardLinks.append(phoneLink);
     }
 
@@ -157,6 +155,10 @@ function processGeoapifyPlaceDetails(data, category){
     //We want to get information from the properties object within each feature object from the list
     //ex: Features[0].properties.name will return the name of the first place that was returned from the search parameters
     let features = data.features;
+
+    if(features.length === 0){
+        exit();
+    }
 
     //example
     let exampObj = features[Math.floor(Math.random()*features.length)];
@@ -199,15 +201,19 @@ function fetchLocation(location){
             return response.json();
         }
     }).then(function(data){
+
+
         lat = data[0].lat;
         lon = data[0].lon;
-        get5Day(lat, lon);
+        get5Day();
+        
+        getGeoapifyLocationId();
     });
 
 }
 
 
-function get5Day(lat, lon){
+function get5Day(){
     var forecastReq = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${openWeatherApiKey}`;
 
     fetch(forecastReq).then(function(response){
@@ -217,14 +223,23 @@ function get5Day(lat, lon){
     }).then(function(data){
         //just logs the data for now
         console.log(data);
+        //display the weather data
     });
 }
 
 search.on('click', function () {
-  userInput = $('#first_name').val()
-  $('#current').text(userInput + " " + today.format('dddd, MMMM D'))
-  fetchLocation(userInput);
-  getGeoapifyLocationId();
+    userInput = $('#first_name').val();
+    //gets value from the venue input
+    venueInput = $('#venue').val();
+
+    //preforms a check if userInput is empty or not
+    //if not empty:
+    if(userInput !== ""){
+        $('#current').text(userInput + " " + today.format('dddd, MMMM D'));
+        fetchLocation(userInput);
+    }else if(venueInput !== ""){
+        getConcertDetails(venueInput);
+    }
   
   
 });
