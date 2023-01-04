@@ -1,5 +1,5 @@
 #top {
-    background-color: rgb(9, 57, 9);
+   
     text-align: center;
 }
 
@@ -20,7 +20,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    
+
 }
 
 .right {
@@ -36,14 +36,26 @@
 .entertainment {
     background-color: #388E3C;
 }
+
 .top-page {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    color: aqua;
+    color: yellow;
 }
 
-/*This is the style for the artist card name*/ 
-.card {
-    background-color: #388E3C;
+
+ .artist-cards {
+    background-color: yellow;
+    max-width: fit-content;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.artist-content {
+    background-color: yellow;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #388E3C;
 }
