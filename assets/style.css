@@ -42,3 +42,8 @@
     justify-content: center;
     color: aqua;
 }
+
+/*This is the style for the artist card name*/ 
+.card {
+    background-color: #388E3C;
+}

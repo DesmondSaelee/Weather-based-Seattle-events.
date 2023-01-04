@@ -1,12 +1,76 @@
 var GeoapiKey = "7fd817a82bee4b8fbce597d0849507d8";
 var baseGeoPlacesUrl = "https://api.geoapify.com/v2/places?";
 var openWeatherApiKey = "9c26d768ead86b39036caf98fb0abbfa";
-
 var placeId, lat, lon;
 var today = dayjs();
-var userInput = ""
-var search = $('#searchBtn')
-var datesArray = $('.dates')
+
+var userInput = "";
+var search = $('#searchBtn');
+var datesArray = $('.dates');
+var cityInput = document.getElementById("first_name");
+var artistInput = document.getElementById("artist");
+var artistCardEl = document.getElementById("artistCard");
+
+
+function musicEvent() {
+    const artistName = artistInput.value.trim();
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '39ab25d4b3mshd3d6061f56936c2p1ccea5jsn16a8b8bc255b',
+            'X-RapidAPI-Host': 'concerts-artists-events-tracker.p.rapidapi.com'
+        }
+    };
+
+    fetch(`https://concerts-artists-events-tracker.p.rapidapi.com/artist?name=${artistName}&page=1`, options)
+        // fetch(`https://concerts-artists-events-tracker.p.rapidapi.com/venue?name=${cityName}%20bowl&page=1`, options)
+        .then(response => response.json())
+        .then(function (response) {
+            console.log(response)
+            for (var i = 0; i < response.data.length; i++) {
+
+                // Put everything within the for loop between starting on line 43 and ending on 47. create elements and append to desired cards.
+                // can we get both searches in one button. city and venue. 
+                // what data we want from object.
+                // how to append that information.
+                // store the lat and long
+                // call get5day() function
+
+                var artistName = response.data[i].name[i]
+                var venueName = response.data[i].location.name[i]
+                var date = response.data[i].startDate[i]
+
+                // creating a card element.
+                var card = document.createElement("div");
+                var cardDiv = document.createElement("div");
+                var heading = document.createElement("h2");
+                var venueNameEL = document.createElement("p");
+                var dateEL = document.createElement("p");
+
+                // setting class for var. so we can style in css
+                card.setAttribute("class", "card");
+                cardDiv.setAttribute("class", "cardDiv");
+                venueNameEL.setAttribute("class", "venueNameEL")
+                dateEL.setAttribute("card", "dateEL")
+
+                card.append(cardDiv);
+                
+                heading.textContent = `Artist Name: ${artistName}`;
+                venueNameEL.textContent = `Venue Name: ${venueName}`;
+                dateEL.textContent = `Date Playing: ${date}`;
+
+
+                cardDiv.append(heading, venueNameEL, dateEL);
+
+                artistCardEl.innerHTML = "";
+                artistCardEl.append(card)
+
+
+            }
+        })
+        .catch(err => console.error(err));
+};
+
 
 const rapidApiOptions = {
     method: 'GET',
@@ -38,42 +102,25 @@ function getConcertDetails(){
     .catch(err => console.error(err));
 }
 
-//this function only currently works after the fetchLocation() function is run
-//the url needs a latitude an longitude
-function getGeoapifyLocationId(){
-    
-    fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=${GeoapiKey}`)
-    .then(response => response.json())
-    .then(function(result){
-        placeId = result.features[0].properties.place_id;
 
-        //this is a placeholder value please work on it to change or update based off of 
-        //if multiple categories store them as a string with commas inbetween the categories
-        //example: accomidation,activity,commercial,education
-        //full list of options here https://apidocs.geoapify.com/docs/places/#categories
-        let category = ["commercial","entertainment","accommodation"];
-        getPlaceDetails(category[Math.floor(Math.random()*category.length)]);
-        getPlaceDetails(category[Math.floor(Math.random()*category.length)]);
-    })
-    .catch(error => console.log('error', error));
 
-}
+
 
 //hopefully creates a card with data for the 
-function createPlaceDetailCard(dataObject, category){
+function createPlaceDetailCard(dataObject, category) {
     //based off the web data fill out a card
     //creating the card
     let card = $(`<div class="card"></div>`);
     //sets the color based of the category
-    switch (category){
+    switch (category) {
         case "commercial":
             card.addClass("orange lighten-2");
             break;
         case "entertainment":
-            card.addClass("green darken-2");       
+            card.addClass("green darken-2");
             break;
         case "accomidation":
-            card.addClass("amber lighten-1"); 
+            card.addClass("amber lighten-1");
             break;
         default:
             card.addClass("blue darken-2");
@@ -87,18 +134,18 @@ function createPlaceDetailCard(dataObject, category){
 
     //card title with the name
     let cardTitle = $(`<span class="card-title">${dataObject.name}</span>`);
-    
+
 
     cardContent.append(cardTitle);
     //card details with a description?
 
     //location
-    if(dataObject.address !== undefined){
+    if (dataObject.address !== undefined) {
         cardContent.append($(`<p>Location: ${dataObject.address}</p>`));
     }
 
     //category type
-    for(let x = 0; x < dataObject.categories.length; x++){
+    for (let x = 0; x < dataObject.categories.length; x++) {
         //the way the categories are stored is alphabetically
         //if we find the category that matches up to the search the
         //next one will be a specific type
@@ -110,14 +157,14 @@ function createPlaceDetailCard(dataObject, category){
                 2: "entertainment"
                 3: "entertainment.museum"
         */
-        if(dataObject.categories[x] === category){
+        if (dataObject.categories[x] === category) {
             //this gets the little bit for the specific type
-            cardContent.append($(`<p>${category} type: ${dataObject.categories[x+1].split(".")[1]}</p>`));
+            cardContent.append($(`<p>${category} type: ${dataObject.categories[x + 1].split(".")[1]}</p>`));
         }
     }
 
     //hours of opperation
-    if(dataObject.hours !== undefined){
+    if (dataObject.hours !== undefined) {
         cardContent.append($(`<p>Hours open: ${dataObject.hours}</p>`))
     }
 
@@ -130,9 +177,9 @@ function createPlaceDetailCard(dataObject, category){
         }
         cardLinks.append(webLink);
     }
-    if(dataObject.phone !== undefined){
+    if (dataObject.phone !== undefined) {
         //this just replaces any paranthesis and dashes
-        let phoneNumberFormatted = dataObject.phone.replace("(","").replace(")","").replace("-","");
+        let phoneNumberFormatted = dataObject.phone.replace("(", "").replace(")", "").replace("-", "");
         let phoneLink = $(`<a href="tel:${phoneNumberFormatted}">${dataObject.phone}</a>`)
         if(category === "commercial"){
             phoneLink.addClass("blue-text");
@@ -150,7 +197,8 @@ function createPlaceDetailCard(dataObject, category){
     $("#tukwila > .row").append(cardContainer);
 }
 
-function processGeoapifyPlaceDetails(data, category){
+function processGeoapifyPlaceDetails(data, category) {
+
     //features is an array with each element being an object having a type, a properties object, and a  geometry object
     //We want to get information from the properties object within each feature object from the list
     //ex: Features[0].properties.name will return the name of the first place that was returned from the search parameters
@@ -161,7 +209,7 @@ function processGeoapifyPlaceDetails(data, category){
     }
 
     //example
-    let exampObj = features[Math.floor(Math.random()*features.length)];
+    let exampObj = features[Math.floor(Math.random() * features.length)];
     //since the categories it returns are alphabetical I would like to use the one we put in
     let dataWeWantObj = {
         name: exampObj.properties.name,
@@ -176,80 +224,82 @@ function processGeoapifyPlaceDetails(data, category){
 
 }
 
-function getPlaceDetails(category){
+function getPlaceDetails(category) {
 
     fetch(`${baseGeoPlacesUrl}categories=${category}&filter=place:${placeId}&apiKey=${GeoapiKey}`)
-    .then(function(response){
-        if(response.ok){
-            return response.json()
-        }
-    })
-    .then(function(data){
-        console.log(data);
-        processGeoapifyPlaceDetails(data, category);
-    })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json()
+            }
+        })
+        .then(function (data) {
+            console.log(data);
+            processGeoapifyPlaceDetails(data, category);
+        })
 
 }
 
 
-function fetchLocation(location){
+function fetchLocation(location) {
 
     var geoReq = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&appid=${openWeatherApiKey}`;
 
-    fetch(geoReq).then(function(response){
-        if(response.ok){
+    fetch(geoReq).then(function (response) {
+        if (response.ok) {
             return response.json();
         }
-    }).then(function(data){
-
-
+    }).then(function (data) {
         lat = data[0].lat;
         lon = data[0].lon;
         get5Day();
-        
-        getGeoapifyLocationId();
     });
 
 }
 
 
-function get5Day(){
+function get5Day() {
     var forecastReq = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${openWeatherApiKey}`;
 
-    fetch(forecastReq).then(function(response){
-        if(response.ok){
+    fetch(forecastReq).then(function (response) {
+        if (response.ok) {
             return response.json();
         }
-    }).then(function(data){
+    }).then(function (data) {
         //just logs the data for now
         console.log(data);
         //display the weather data
     });
 }
 
+
 search.on('click', function () {
-    userInput = $('#first_name').val();
-    //gets value from the venue input
-    venueInput = $('#venue').val();
+    userInput = $('#first_name').val()
+    $('#current').text(userInput + " " + today.format('dddd, MMMM D'))
+    console.log(userInput)
+    fetchLocation(userInput)
+    musicEvent(userInput)
 
-    //preforms a check if userInput is empty or not
-    //if not empty:
-    if(userInput !== ""){
-        $('#current').text(userInput + " " + today.format('dddd, MMMM D'));
-        fetchLocation(userInput);
-    }else if(venueInput !== ""){
-        getConcertDetails(venueInput);
-    }
-  
-  
+
+
 });
-// const tomorrow = today.add(1,"day").format('dddd, MMMM D')
-// console.log(tomorrow)
+    // const tomorrow = today.add(1,"day").format('dddd, MMMM D')
+    // console.log(tomorrow)
 
-for (let index = 0; index < datesArray.length; index++) {
-    const forecastIndex = datesArray[index];
-    const forecastDate = today.add(index++,"day").format('dddd, MMMM D')
-    $('.dates').text(forecastDate)
-    
-}
+    // for (let index = 0; index < datesArray.length; index++) {
+    //     const forecastIndex = datesArray[index];
+    //     const forecastDate = today.add(index, "day").format('dddd, MMMM D')
+    //     $('.dates').text(forecastDate)
+    //     console.log(forecastDate)
 
+    // }
+
+
+// let daysRequired = 7
+
+// for (let i = 1; i <= daysRequired; i++) {
+//     let days = [];
+
+//   days.push( today.add(i, 'days').format('dddd, D MMMM YYYY') )
+//   $('.dates').text(days)
+//   console.log(days)
+// }
