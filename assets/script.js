@@ -1,8 +1,10 @@
 var apiKey = "179d01a2307062deab314b97c264567ad1a85bb0c6b8d15e038453be9cee7a60";
-var baseGeoUrl = "https://api.geoapify.com/v2/place-details?";
+var baseGeoPlacesUrl = "https://api.geoapify.com/v2/place-details?";
+
 var openWeatherApiKey = "9c26d768ead86b39036caf98fb0abbfa";
 var placeId, lat, lon;
 var today = dayjs();
+
 var userInput = "";
 var search = $('#searchBtn');
 var datesArray = $('.dates');
@@ -162,6 +164,7 @@ function createPlaceDetailCard(dataObject, category) {
 }
 
 function processGeoapifyPlaceDetails(data, category) {
+
     //features is an array with each element being an object having a type, a properties object, and a  geometry object
     //We want to get information from the properties object within each feature object from the list
     //ex: Features[0].properties.name will return the name of the first place that was returned from the search parameters
@@ -210,13 +213,13 @@ function fetchLocation(location) {
     }).then(function (data) {
         lat = data[0].lat;
         lon = data[0].lon;
-        get5Day(lat, lon);
+        get5Day();
     });
 
 }
 
 
-function get5Day(lat, lon) {
+function get5Day() {
     var forecastReq = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${openWeatherApiKey}`;
 
     fetch(forecastReq).then(function (response) {
@@ -261,4 +264,3 @@ search.on('click', function () {
 //   $('.dates').text(days)
 //   console.log(days)
 // }
-
