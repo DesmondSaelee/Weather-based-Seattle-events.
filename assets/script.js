@@ -10,7 +10,6 @@ var datesArray = $('.dates');
 var artistInput = document.getElementById("artist");
 var artistCardEl = document.getElementById("artistCard");
 var container = document.getElementById('artist-cards-container');
-
 // function and fetch for concert api
 
 function musicEvent() {
@@ -29,7 +28,6 @@ function musicEvent() {
         .then(function (response) {
             console.log(response)
 
-            // map function to grab info from object responses and create cards with that desired info.
             function returnCards(response) {
                 return "<div class=\"artist-cards\">" + response.data.map(valuesCard => `
     <div>
@@ -40,36 +38,59 @@ function musicEvent() {
     <p>Peformance Date: ${valuesCard.startDate}</p>
     </div>
     </div>`).join('') + "</div>";
+
+    }
+    
+    container.innerHTML = returnCards(response);
+    })
+    .catch(function(err){
+        openModal(err);
+    });
+    };
+    
+   
+
+
+
+
+function getPlaceDetails(category) {
+
+    fetch(`${baseGeoPlacesUrl}categories=${category}&filter=place:${placeId}&apiKey=${GeoapiKey}`)
+        .then(function (response) {
+            if (response.ok) {
+                return response.json()
             }
-
-            container.innerHTML = returnCards(response);
         })
-        .catch(err => console.error(err));
-};
+        .then(function (data) {
+            console.log(data);
+            processGeoapifyPlaceDetails(data, category);
+        })
 
-
-
-
-
-
+}
 
 
 // function to fetch coordinates info from api
 function fetchLocation(location) {
+  var geoReq = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&appid=${openWeatherApiKey}`;
 
-    var geoReq = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&appid=${openWeatherApiKey}`;
-
-    fetch(geoReq).then(function (response) {
-        if (response.ok) {
-            return response.json();
+  fetch(geoReq)
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+        if(data.length === 0){
+            throw new Error(`Invalid input`);
         }
-    }).then(function (data) {
+    
         lat = data[0].lat;
         lon = data[0].lon;
         get5Day(lat, lon);
         console.log(data)
+    }).catch(function(err){
+        openModal(err);
     });
-
 }
 
 // on click event listener on search button for user input. Gets updates and stores info
@@ -145,4 +166,15 @@ function populateCurrentcity(data) {
     $(".main-card p").first().html(`Temp: ${data.main.temp} &#8457;`)
     $(".main-card p").last().text(`Humidity: ${data.main.humidity} %`)
     $(".main-card p:nth-child(3)").text(`Wind: ${data.wind.speed} MPH`)
+}
+
+
+$(document).ready(function () {
+    $(".modal").modal();
+});
+
+function openModal(err) {
+    var instance = M.Modal.getInstance($(".modal"));
+    $(".modal-content > p").html(err);
+    instance.open();
 }
