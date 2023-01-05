@@ -1,162 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Location searcher</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href=".\assets\style.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href=".\assets\style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
-        integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+      integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-</head>
-
-<body>
-
-
-
+  <body>
     <div class="title">
-        <div class="col s12 m6" id="top">
-            <div class="card blue-grey darken-1">
-                <div class="card-content white-text">
-                    <span class=" top-page">Weather and Music</span>
-                </div>
-            </div>
+      <div class="col s12 m6" id="top">
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <span class="top-page">Weather and Music</span>
+          </div>
         </div>
+      </div>
     </div>
     <form class="">
-        <div class="flex-container">
-            <div class="input-field">
-                <input placeholder="Seattle" id="first_name" type="text" class="validate">
-                <label for="first_name">Search for a City:</label>
-                <input placeholder="Artist" id="artist" type="text" class="validate">
-                <label for="first_name">Search for a Artist:</label>
-                <button class="btn btn-primary search" type="button" id="searchBtn">Search</button>
-            </div>
+      <div class="flex-container">
+        <div class="input-field">
+          <input
+            placeholder="Seattle"
+            id="first_name"
+            type="text"
+            class="validate"
+          />
+          <label for="first_name">Search for a City:</label>
+          <input
+            placeholder="Artist"
+            id="artist"
+            type="text"
+            class="validate"
+          />
+          <label for="first_name">for a City or Artist:</label>
+          <button class="btn btn-primary search" type="button" id="searchBtn">
+            Search
+          </button>
+        </div>
     </form>
 
     <div class="column right">
-
-        <div class="main-card">
-
-            <div class="row">
-                <div class="top-card">
-                    <div class="card blue-grey darken-1 future">
-                        <div class="card-content white-text">
-                            <span class="title" id="current">Current Location </span>
-                            <p>Temp: x</p>
-                            <p>Wind: x</p>
-                            <p>Humidity: x</p>
-                        </div>
-                    </div>
-
-
-
-                </div>
+      <div class="main-card">
+        <div class="row">
+          <div class="top-card">
+            <div class="card blue-grey darken-1 future">
+              <div class="card-content white-text">
+                <span class="title" id="current">Current Location </span>
+                <p>Temp: x</p>
+                <p>Wind: x</p>
+                <p>Humidity: x</p>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="forecast-container">
+        <div class="row">
+          <div class="">
+            <div class="card blue-grey darken-1 future">
+              <div class="card-content white-text">
+                <span class="title dates">Day 1</span>
+                <p>Temp:</p>
+                <p>Wind:</p>
+                <p>Humidity:</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="forecast-container">
-
-            <div class="row">
-                <div class="">
-                    <div class="card blue-grey darken-1 future">
-                        <div class="card-content white-text">
-                            <span class="title dates">Day 1</span>
-                            <p>Temp:</p>
-                            <p>Wind:</p>
-                            <p>Humidity:</p>
-                        </div>
-                    </div>
-
-
-
-                </div>
+        <div class="row">
+          <div class="">
+            <div class="card blue-grey darken-1 future">
+              <div class="card-content white-text">
+                <span class="title dates">Day 2</span>
+                <p>Temp:</p>
+                <p>Wind:</p>
+                <p>Humidity:</p>
+              </div>
             </div>
-
-            <div class="row">
-                <div class="">
-                    <div class="card blue-grey darken-1 future">
-                        <div class="card-content white-text">
-                            <span class="title dates">Day 2</span>
-                            <p>Temp:</p>
-                            <p>Wind:</p>
-                            <p>Humidity:</p>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="">
-                    <div class="card blue-grey darken-1 future">
-                        <div class="card-content white-text">
-                            <span class="title dates">Day 3</span>
-                            <p>Temp:</p>
-                            <p>Wind:</p>
-                            <p>Humidity:</p>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="">
-                    <div class="card blue-grey darken-1 future">
-                        <div class="card-content white-text">
-                            <span class="title dates">Day 4</span>
-                            <p>Temp:</p>
-                            <p>Wind:</p>
-                            <p>Humidity:</p>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="">
-                    <div class="card blue-grey darken-1 future">
-                        <div class="card-content white-text">
-                            <span class="title dates">Day 5</span>
-                            <p>Temp:</p>
-                            <p>Wind:</p>
-                            <p>Humidity:</p>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
+          </div>
         </div>
 
-        
+        <div class="row">
+          <div class="">
+            <div class="card blue-grey darken-1 future">
+              <div class="card-content white-text">
+                <span class="title dates">Day 3</span>
+                <p>Temp:</p>
+                <p>Wind:</p>
+                <p>Humidity:</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div class="row">
+          <div class="">
+            <div class="card blue-grey darken-1 future">
+              <div class="card-content white-text">
+                <span class="title dates">Day 4</span>
+                <p>Temp:</p>
+                <p>Wind:</p>
+                <p>Humidity:</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <div id="artist-cards-container"></div>
+        <div class="row">
+          <div class="">
+            <div class="card blue-grey darken-1 future">
+              <div class="card-content white-text">
+                <span class="title dates">Day 5</span>
+                <p>Temp:</p>
+                <p>Wind:</p>
+                <p>Humidity:</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        
-
-
+      <div id="artist-cards-container"></div>
     </div>
 
     <!-- link to jquery  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="./assets/script.js"></script>
-</body>
-
+  </body>
 </html>
