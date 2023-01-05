@@ -11,7 +11,6 @@ var artistCardEl = document.getElementById("artistCard");
 var container = document.getElementById('artist-cards-container');
 
 
-
 function musicEvent() {
     const artistName = artistInput.value.trim();
     const options = {
@@ -26,6 +25,9 @@ function musicEvent() {
     
     .then(response => response.json())
     .then(function (response) {
+        if(response.error !== undefined){
+            throw new Error('Invalid input');
+        }
     console.log(response)
     
     function returnCards(response) {
@@ -42,7 +44,9 @@ function musicEvent() {
     
     container.innerHTML = returnCards(response);
     })
-    .catch(err => console.error(err));
+    .catch(function(err){
+        openModal(err);
+    });
     };
     
    
@@ -51,49 +55,64 @@ function musicEvent() {
 
 
 function getPlaceDetails(category) {
-
-    fetch(`${baseGeoPlacesUrl}categories=${category}&filter=place:${placeId}&apiKey=${GeoapiKey}`)
-        .then(function (response) {
-            if (response.ok) {
-                return response.json()
-            }
-        })
-        .then(function (data) {
-            console.log(data);
-            processGeoapifyPlaceDetails(data, category);
-        })
-
+  fetch(
+    `${baseGeoPlacesUrl}categories=${category}&filter=place:${placeId}&apiKey=${GeoapiKey}`
+  )
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+      console.log(data);
+      processGeoapifyPlaceDetails(data, category);
+    })
+    .catch(function (err) {
+      console.log(err);
+      openModal(err);
+    });
 }
 
-
 function fetchLocation(location) {
+  var geoReq = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&appid=${openWeatherApiKey}`;
 
-    var geoReq = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&appid=${openWeatherApiKey}`;
-
-    fetch(geoReq).then(function (response) {
-        if (response.ok) {
-            return response.json();
+  fetch(geoReq)
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+        if(data.length === 0){
+            throw new Error(`Invalid input`);
         }
     }).then(function (data) {
         lat = data[0].lat;
         lon = data[0].lon;
         get5Day(lat, lon);
         console.log(data)
+    }).catch(function(err){
+        openModal(err);
     });
-
 }
 
 
 function get5Day(lat, lon) {
     var forecastReq = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${openWeatherApiKey}`;
 
-    fetch(forecastReq).then(function (response) {
-        if (response.ok) {
-            return response.json();
-        }
-    }).then(function (data) {
-        //just logs the data for now
-        console.log(data);
+  fetch(forecastReq)
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+      //just logs the data for now
+      console.log(data);
+      //display the weather data
+    })
+    .catch(function (err) {
+      openModal(err);
     });
 }
 
@@ -108,3 +127,13 @@ search.on('click', function () {
 
 
 });
+
+$(document).ready(function () {
+    $(".modal").modal();
+});
+
+function openModal(err) {
+    var instance = M.Modal.getInstance($(".modal"));
+    $(".modal-content > p").html(err);
+    instance.open();
+}
