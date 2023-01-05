@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Location searcher</title>
+    <!-- linkning all our pages -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
@@ -22,7 +23,7 @@
       crossorigin="anonymous"
     ></script>
   </head>
-
+<!-- creating top of page header card -->
   <body>
     <div class="title">
       <div class="col s12 m6" id="top">
@@ -33,6 +34,7 @@
         </div>
       </div>
     </div>
+    <!-- creating search button and user input -->
     <form class="">
       <div class="flex-container">
         <div class="input-field">
@@ -42,20 +44,20 @@
             type="text"
             class="validate"
           />
-          <label for="first_name">Search for a City:</label>
+          <label for="first_name"></label>
           <input
             placeholder="Artist"
             id="artist"
             type="text"
             class="validate"
           />
-          <label for="first_name">for a City or Artist:</label>
+          <label for="first_name">Search for a City or Artist:</label>
           <button class="btn btn-primary search" type="button" id="searchBtn">
             Search
           </button>
         </div>
     </form>
-
+<!-- creating current location main card -->
     <div class="column right">
       <div class="main-card">
         <div class="row">
@@ -71,7 +73,7 @@
           </div>
         </div>
       </div>
-
+<!-- creating forecast container and separate cards -->
       <div class="forecast-container">
         <div class="row">
           <div class="">
@@ -138,7 +140,7 @@
           </div>
         </div>
       </div>
-
+<!-- creating container for cards connected to the concert api -->
       <div id="artist-cards-container"></div>
     </div>
 
