@@ -168,7 +168,6 @@ function populateCurrentcity(data) {
     $(".main-card p").last().text(`Humidity: ${data.main.humidity} %`)
     $(".main-card p:nth-child(3)").text(`Wind: ${data.wind.speed} MPH`)
 }
-});
 
 $(document).ready(function () {
     $(".modal").modal();
