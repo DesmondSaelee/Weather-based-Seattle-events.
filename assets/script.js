@@ -11,7 +11,6 @@ var artistCardEl = document.getElementById("artistCard");
 var container = document.getElementById('artist-cards-container');
 
 
-
 function musicEvent() {
     const artistName = artistInput.value.trim();
     const options = {
@@ -24,12 +23,16 @@ function musicEvent() {
 
     fetch(`https://concerts-artists-events-tracker.p.rapidapi.com/artist?name=${artistName}&page=1`, options)
 
-        .then(response => response.json())
-        .then(function (response) {
-            console.log(response)
-
-            function returnCards(response) {
-                return "<div class=\"artist-cards\">" + response.data.map(valuesCard => `
+    
+    .then(response => response.json())
+    .then(function (response) {
+        if(response.error !== undefined){
+            throw new Error('Invalid input');
+        }
+    console.log(response)
+    
+    function returnCards(response) {
+    return "<div class=\"artist-cards\">" + response.data.map(valuesCard => `
     <div>
    
     <div class="artist-content">
@@ -38,49 +41,61 @@ function musicEvent() {
     <p>Peformance Date: ${valuesCard.startDate}</p>
     </div>
     </div>`).join('') + "</div>";
-            }
 
-            container.innerHTML = returnCards(response);
-        })
-        .catch(err => console.error(err));
-};
-
-
+    }
+    
+    container.innerHTML = returnCards(response);
+    })
+    .catch(function(err){
+        openModal(err);
+    });
+    };
+    
+   
 
 
 
 
 function getPlaceDetails(category) {
-
-    fetch(`${baseGeoPlacesUrl}categories=${category}&filter=place:${placeId}&apiKey=${GeoapiKey}`)
-        .then(function (response) {
-            if (response.ok) {
-                return response.json()
-            }
-        })
-        .then(function (data) {
-            console.log(data);
-            processGeoapifyPlaceDetails(data, category);
-        })
-
+  fetch(
+    `${baseGeoPlacesUrl}categories=${category}&filter=place:${placeId}&apiKey=${GeoapiKey}`
+  )
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+      console.log(data);
+      processGeoapifyPlaceDetails(data, category);
+    })
+    .catch(function (err) {
+      console.log(err);
+      openModal(err);
+    });
 }
 
-
 function fetchLocation(location) {
+  var geoReq = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&appid=${openWeatherApiKey}`;
 
-    var geoReq = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&appid=${openWeatherApiKey}`;
-
-    fetch(geoReq).then(function (response) {
-        if (response.ok) {
-            return response.json();
+  fetch(geoReq)
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+        if(data.length === 0){
+            throw new Error(`Invalid input`);
         }
     }).then(function (data) {
         lat = data[0].lat;
         lon = data[0].lon;
         get5Day(lat, lon);
         console.log(data)
+    }).catch(function(err){
+        openModal(err);
     });
-
 }
 
 
@@ -152,4 +167,15 @@ function populateCurrentcity(data) {
     $(".main-card p").first().html(`Temp: ${data.main.temp} &#8457;`)
     $(".main-card p").last().text(`Humidity: ${data.main.humidity} %`)
     $(".main-card p:nth-child(3)").text(`Wind: ${data.wind.speed} MPH`)
+}
+});
+
+$(document).ready(function () {
+    $(".modal").modal();
+});
+
+function openModal(err) {
+    var instance = M.Modal.getInstance($(".modal"));
+    $(".modal-content > p").html(err);
+    instance.open();
 }
